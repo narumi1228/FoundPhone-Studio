@@ -339,7 +339,7 @@ export function MymyInstagram(p: SkinProps) {
   const igProfiles = {
     lina: { handle: "linaaa_", name: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", bio: "serendipity  @_imnnin", count: "3", followers: "524", following: "446" },
     public: { handle: "_imnnin", name: "Woominwoo", avatar: "https://i.pinimg.com/736x/61/ee/d0/61eed02c1e2ee6b482da48f84ea4cb53.jpg", bio: "Woominwoo", count: "132", followers: "1.9M", following: "2" },
-    private: { handle: "zhvho24", name: "zhvho24", avatar: "", bio: "", count: "13", followers: "154", following: "154" }
+    private: { handle: "zhvho24", name: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", bio: "", count: "13", followers: "154", following: "154" }
   };
   const profile = igProfiles[igAccount];
   const wooPublicPosts: Item[] = [
@@ -361,15 +361,19 @@ export function MymyInstagram(p: SkinProps) {
   const wooPrivatePosts: Item[] = wooPrivateImages.map((media, n) => ({ id: "woo-private-" + n, title: "", body: "", richText: "", meta: {}, time: "2026-10-" + String(24 - n).padStart(2, "0"), sender: "zhvho24", avatar: "", kind: "image", media, hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 40 + n * 7, comments: ["ㅋㅋㅋㅋ\n哈哈哈", "이거 언제 찍었지\n這什麼時候拍的"], }));
 
   const linaPosts: Item[] = [
-    { id: "lina-ig-photo", title: "🐾", body: "🐾", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-20", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/a9/08/c2/a908c230613481912c91327bcbb602a6.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 87, comments: ["오늘도 예쁘다 🤍", "사진 분위기 너무 좋아"] },
-    { id: "lina-ig-pose", title: ":3", body: ":3", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-12", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cf/c4/1a/cfc41a1ca255989a819cdcf33ae6be6c.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 132, comments: ["ㅋㅋㅋ 귀여워", "이 사진 진짜 좋아"] },
-    { id: "lina-ig-cake", title: "❤️🍰", body: "❤️🍰", richText: "", meta: { handle: "linaaa_" }, time: "2026-09-28", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cc/83/de/cc83ded3ccb56ec9c82c17e922a39745.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 64, comments: ["디저트 최고 🍰", "맛있겠다!"] }
+    { id: "lina-ig-photo", title: "🐾", body: "🐾", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-20", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/a9/08/c2/a908c230613481912c91327bcbb602a6.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 87, comments: ["오늘도 예쁘다 🤍\\n今天也很漂亮🤍", "사진 분위기 너무 좋아\\n照片的氛圍真的很好"] },
+    { id: "lina-ig-pose", title: ":3", body: ":3", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-12", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cf/c4/1a/cfc41a1ca255989a819cdcf33ae6be6c.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 132, comments: ["ㅋㅋㅋ 귀여워\\n哈哈哈，好可愛", "이 사진 진짜 좋아\\n真的很喜歡這張照片"] },
+    { id: "lina-ig-cake", title: "❤️🍰", body: "❤️🍰", richText: "", meta: { handle: "linaaa_" }, time: "2026-09-28", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cc/83/de/cc83ded3ccb56ec9c82c17e922a39745.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 64, comments: ["디저트 최고 🍰\\n甜點最棒了🍰", "맛있겠다!\\n看起來好好吃！"] }
   ];
   const posts = igAccount === "lina" ? [...linaPosts] : igAccount === "public" ? wooPublicPosts : wooPrivatePosts,
     allFeedPosts = [...linaPosts, ...wooPublicPosts, ...wooPrivatePosts],
 
     stories = p.items.filter((i) => i.meta.story === "true"),
-    dms = p.items.filter((i) => i.folder === "私信"),
+    dms = [...p.items.filter((i) => i.folder === "私信"), ...[
+      { id: "woo-dm-1", title: "zhvho24", body: "집 도착했어?\n到家了嗎？", richText: "", meta: {}, time: "23:18", sender: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", kind: "text", media: "", hidden: false, unlock: "", password: "", folder: "私信", favorite: false, outgoing: false, read: false, likes: 0, comments: [] },
+      { id: "woo-dm-2", title: "zhvho24", body: "오늘 사진 올린 거 봤어? 너 생각나서 보냈어.\n看到我今天發的照片了嗎？因為想到你才傳給你的。", richText: "", meta: {}, time: "23:21", sender: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", kind: "text", media: "", hidden: false, unlock: "", password: "", folder: "私信", favorite: false, outgoing: false, read: false, likes: 0, comments: [] },
+      { id: "woo-dm-3", title: "zhvho24", body: "보고 싶다. 내일 끝나고 잠깐 볼래?\n想你了。明天工作結束後要不要見一下？", richText: "", meta: {}, time: "23:24", sender: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", kind: "text", media: "", hidden: false, unlock: "", password: "", folder: "私信", favorite: false, outgoing: false, read: false, likes: 0, comments: [] }
+    ]],
     active = stories[story - 1];
   const toggle = (id: string, values: string[], set: (v: string[]) => void) =>
     set(values.includes(id) ? values.filter((v) => v !== id) : [...values, id]);
