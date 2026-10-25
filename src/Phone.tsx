@@ -563,6 +563,84 @@ function PhoneRuntime({
                       }
                     }
                     update(next);
+                    if (reply.value === "typed") {
+                      void (async () => {
+                        const recentItems = [
+                          ...(work.data[app] ?? []),
+                          ...(runtimeRef.current.messages[app] ?? []),
+                          makeItem({
+                            id: "current-user-message",
+                            title: item.title,
+                            body: reply.label,
+                            sender: work.phone.owner,
+                            time: now,
+                            outgoing: true,
+                          }),
+                        ].slice(-24);
+                        const messages = recentItems
+                          .filter((entry) => typeof entry.body === "string" && entry.body.trim())
+                          .map((entry) => ({
+                            role: entry.outgoing ? "user" : "assistant",
+                            content: entry.body,
+                          }));
+                        try {
+                          const response = await fetch("/api/chat", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ messages }),
+                          });
+                          const data = await response.json();
+                          if (!response.ok || typeof data.reply !== "string") {
+                            const notice = data.code === "AI_NOT_CONFIGURED"
+                              ? "（AI 聊天尚未完成設定，請稍後再試。）"
+                              : "（剛剛訊息沒有送成功，請稍後再試一次。）";
+                            update({
+                              ...runtimeRef.current,
+                              messages: {
+                                ...runtimeRef.current.messages,
+                                [app]: [...(runtimeRef.current.messages[app] ?? []), makeItem({
+                                  id: `ai-status-${crypto.randomUUID()}`,
+                                  title: item.title,
+                                  body: notice,
+                                  sender: "系統",
+                                  time: now,
+                                })],
+                              },
+                            });
+                            return;
+                          }
+                          const replyTime = `${runtimeRef.current.date || work.phone.date} ${runtimeRef.current.time || work.phone.time}`;
+                          update({
+                            ...runtimeRef.current,
+                            messages: {
+                              ...runtimeRef.current.messages,
+                              [app]: [...(runtimeRef.current.messages[app] ?? []), makeItem({
+                                id: `ai-reply-${crypto.randomUUID()}`,
+                                title: item.title,
+                                body: data.reply,
+                                sender: item.sender || "차우민",
+                                avatar: item.avatar,
+                                time: replyTime,
+                              })],
+                            },
+                          });
+                        } catch {
+                          update({
+                            ...runtimeRef.current,
+                            messages: {
+                              ...runtimeRef.current.messages,
+                              [app]: [...(runtimeRef.current.messages[app] ?? []), makeItem({
+                                id: `ai-status-${crypto.randomUUID()}`,
+                                title: item.title,
+                                body: "（暫時無法連線取得回覆，請稍後再試。）",
+                                sender: "系統",
+                                time: now,
+                              })],
+                            },
+                          });
+                        }
+                      })();
+                    }
                   }}
                 />
               </AppWindow>
