@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import example from "../../tests/fixtures/story-example/story.json";
+import templateStory from "../../stories/template/story.json";
 import { compileStory } from "./compiler";
 import { testStory } from "./testStory";
 const copy = () => structuredClone(example);
@@ -70,4 +71,19 @@ it("blank default has no story and needs no ending test", () => {
   expect(Object.values(work.data).flat()).toEqual([]);
   expect(work.mode).toBe("explore");
   expect(testStory(story, work)).toEqual([]);
+});
+
+
+describe("personal phone story isolation", () => {
+  it("compiles the isolated phone, wallpaper assets, and Kakao conversation", () => {
+    const { story, work } = compileStory(structuredClone(templateStory));
+    expect(work.id).toBe("lina-cha-woomin-20261025");
+    expect(work.phone.passcode).toBe("0916");
+    expect(work.phone.lockWallpaper).toContain("10/e6/7c/10e67ca1875d22a4eb162cf6934093b5.jpg");
+    expect(work.phone.homeWallpaper).toContain("ec/fd/60/ecfd60ed3d5abf431b6130feae9d551a.jpg");
+    const chat = story.chats.find((item) => item.id === "chat-cha-woomin");
+    expect(chat?.messages).toHaveLength(3);
+    expect(chat?.messages[2].meta.quickReplies).toContain("還沒，正準備吃。");
+    expect(chat?.messages[2].meta.replyFollowup).toContain("要不要打電話？");
+  });
 });
