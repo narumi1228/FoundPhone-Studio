@@ -101,6 +101,8 @@ export const workSchema = z.object({
       .optional(),
     passcode: z.string().max(12),
     wallpaper: z.string(),
+    lockWallpaper: z.string().max(2048).default(""),
+    homeWallpaper: z.string().max(2048).default(""),
     theme: z.enum(["light", "dark"]),
     time: z.string(),
     battery: z.number().min(0).max(100),
@@ -196,9 +198,7 @@ export function validateWork(input: unknown): Work {
   return workSchema.parse(input);
 }
 export function safeMedia(value: string) {
-  return /^data:(image\/(png|jpeg|webp|gif)|audio\/(mpeg|mp3|wav|ogg|webm|mp4)|video\/(mp4|webm));base64,[a-zA-Z0-9+/=\s]+$/.test(
-    value,
-  )
-    ? value
-    : "";
+  const embedded = /^data:(image\/(png|jpeg|webp|gif)|audio\/(mpeg|mp3|wav|ogg|webm|mp4)|video\/(mp4|webm));base64,[a-zA-Z0-9+/=\s]+$/.test(value);
+  const approvedImage = /^https:\/\/i\.pinimg\.com\/[a-zA-Z0-9/_-]+\.(?:png|jpe?g|webp)$/.test(value);
+  return embedded || approvedImage ? value : "";
 }
