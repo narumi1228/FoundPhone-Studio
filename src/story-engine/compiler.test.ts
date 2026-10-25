@@ -83,7 +83,7 @@ describe("personal phone story isolation", () => {
     expect(work.phone.homeWallpaper).toContain("ec/fd/60/ecfd60ed3d5abf431b6130feae9d551a.jpg");
     const chat = story.chats.find((item) => item.id === "chat-cha-woomin");
     expect(chat?.messages).toHaveLength(3);
-    expect(chat?.messages[2].meta.quickReplies).toContain("還沒，正準備吃。");
-    expect(chat?.messages[2].meta.replyFollowup).toContain("要不要打電話？");
+    expect(chat?.messages[2]?.meta.quickReplies).toContain("還沒，正準備吃。");
+    expect(chat?.messages[2]?.meta.replyFollowup).toContain("要不要打電話？");
   });
 });
