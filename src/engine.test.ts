@@ -89,6 +89,7 @@ describe("import and schema safety", () => {
     expect(safeMedia("javascript:alert(1)")).toBe("");
     expect(safeMedia("data:image/svg+xml;base64,PHN2Zz4=")).toBe("");
     expect(safeMedia("https://example.com/image.png")).toBe("");
+    expect(safeMedia("https://i.pinimg.com/736x/10/e6/7c/example.jpg")).not.toBe("");
     expect(safeMedia("data:image/png;base64,YQ==")).not.toBe("");
   });
   it("parses script and explains invalid lines", () => {
