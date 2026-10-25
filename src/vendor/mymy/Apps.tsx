@@ -337,15 +337,18 @@ export function MymyInstagram(p: SkinProps) {
   const linaProfile = /莉娜|lina/i.test(p.owner || "");
   const [igAccount, setIgAccount] = useState<"lina" | "public" | "private">("lina");
   const igProfiles = {
-    lina: { handle: "linaaa_", name: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", bio: "serendipity  @_imnnin", count: "3", followers: "524", following: "446" },
+    lina: { handle: "linaaa_", name: "linaaa_", avatar: "https://i.pinimg.com/736x/33/43/06/334306d4cabb96d1f66cc744c8045aec.jpg", bio: "serendipity  @_imnnin", count: "3", followers: "524", following: "446" },
     public: { handle: "_imnnin", name: "Woominwoo", avatar: "https://i.pinimg.com/736x/61/ee/d0/61eed02c1e2ee6b482da48f84ea4cb53.jpg", bio: "Woominwoo", count: "132", followers: "1.9M", following: "2" },
     private: { handle: "zhvho24", name: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", bio: "", count: "13", followers: "154", following: "154" }
   };
   const profile = igProfiles[igAccount];
   const wooPublicPosts: Item[] = [
-    { id: "woo-public-1", title: "", body: "", richText: "", meta: {}, time: "2026-10-22", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://i.pinimg.com/736x/61/ee/d0/61eed02c1e2ee6b482da48f84ea4cb53.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 48200, comments: ["분위기 미쳤다 😭\n氛圍真的絕了😭", "오늘도 잘생겼어요\n今天也好帥"], },
-    { id: "woo-public-2", title: "", body: "", richText: "", meta: {}, time: "2026-10-18", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://i.pinimg.com/1200x/a9/08/c2/a908c230613481912c91327bcbb602a6.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 126000, comments: ["이 사진 너무 좋아요\n好喜歡這張照片", "화보 같아\n像畫報一樣"], },
-    { id: "woo-public-3", title: "", body: "", richText: "", meta: {}, time: "2026-10-15", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://i.pinimg.com/736x/61/ee/d0/61eed02c1e2ee6b482da48f84ea4cb53.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 76300, comments: ["최고야 🖤\n最棒了🖤", "사랑해요\n喜歡你"], }
+    { id: "woo-public-1", title: "", body: "", richText: "", meta: {}, time: "2026-10-22", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://pbs.twimg.com/media/HVdu9TFagAA8-d9?format=jpg&name=4096x4096", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 48200, comments: ["분위기 미쳤다 😭\\n氛圍真的絕了😭", "오늘도 잘생겼어요\\n今天也好帥"] },
+    { id: "woo-public-2", title: "", body: "", richText: "", meta: {}, time: "2026-10-18", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://pbs.twimg.com/media/HUZI8BlaUAAr909?format=jpg&name=4096x4096", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 126000, comments: ["이 사진 너무 좋아요\\n好喜歡這張照片", "화보 같아\\n像畫報一樣"] },
+    { id: "woo-public-3", title: "", body: "", richText: "", meta: {}, time: "2026-10-15", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://pbs.twimg.com/media/HULXaU5asAEChUP?format=jpg&name=4096x4096", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 76300, comments: ["최고야 🖤\\n最棒了🖤", "사랑해요\\n喜歡你"] },
+    { id: "woo-public-4", title: "", body: "", richText: "", meta: {}, time: "2026-10-12", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://pbs.twimg.com/media/HRGp8j6boAA1hsE?format=jpg&name=large", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 58300, comments: ["너무 멋있어요\\n太帥了", "이런 분위기 좋아\\n喜歡這種氛圍"] },
+    { id: "woo-public-5", title: "", body: "", richText: "", meta: {}, time: "2026-10-08", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://pbs.twimg.com/media/HRGp9cZaUAE1_RT?format=jpg&name=large", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 91700, comments: ["레전드 사진\\n神級照片", "잘생겼다\\n好帥"] },
+    { id: "woo-public-6", title: "", body: "", richText: "", meta: {}, time: "2026-10-04", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://pbs.twimg.com/media/HOJoSYdaEAAGIWu?format=jpg&name=4096x4096", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 147000, comments: ["기다렸어요 🖤\\n等你好久了🖤", "너무 좋아요\\n太喜歡了"] }
   ];
   const wooPrivateImages = [
     "https://i.pinimg.com/736x/68/b4/c4/68b4c465743015be7b5bf5a195a3b6e9.jpg",
@@ -358,10 +361,10 @@ export function MymyInstagram(p: SkinProps) {
     "https://i.pinimg.com/736x/c6/84/3a/c6843a50e541504c74f2e2db43cc3163.jpg",
     "https://i.pinimg.com/736x/e4/c4/28/e4c4289549e4cdb26d3a44d16c5949f7.jpg"
   ];
-  const wooPrivatePosts: Item[] = wooPrivateImages.map((media, n) => ({ id: "woo-private-" + n, title: "", body: "", richText: "", meta: {}, time: "2026-10-" + String(24 - n).padStart(2, "0"), sender: "zhvho24", avatar: "", kind: "image", media, hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 40 + n * 7, comments: ["ㅋㅋㅋㅋ\n哈哈哈", "이거 언제 찍었지\n這什麼時候拍的"], }));
+  const wooPrivatePosts: Item[] = wooPrivateImages.map((media, n) => ({ id: "woo-private-" + n, title: "", body: "", richText: "", meta: {}, time: "2026-10-" + String(24 - n).padStart(2, "0"), sender: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", kind: "image", media, hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 40 + n * 7, comments: ["ㅋㅋㅋㅋ\n哈哈哈", "이거 언제 찍었지\n這什麼時候拍的"], }));
 
   const linaPosts: Item[] = [
-    { id: "lina-ig-photo", title: "🐾", body: "🐾", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-20", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/a9/08/c2/a908c230613481912c91327bcbb602a6.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 87, comments: ["오늘도 예쁘다 🤍\\n今天也很漂亮🤍", "사진 분위기 너무 좋아\\n照片的氛圍真的很好"] },
+    { id: "lina-ig-photo", title: "🐾", body: "🐾", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-20", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/33/43/06/334306d4cabb96d1f66cc744c8045aec.jpg", kind: "image", media: "https://i.pinimg.com/1200x/a9/08/c2/a908c230613481912c91327bcbb602a6.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 87, comments: ["오늘도 예쁘다 🤍\\n今天也很漂亮🤍", "사진 분위기 너무 좋아\\n照片的氛圍真的很好"] },
     { id: "lina-ig-pose", title: ":3", body: ":3", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-12", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cf/c4/1a/cfc41a1ca255989a819cdcf33ae6be6c.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 132, comments: ["ㅋㅋㅋ 귀여워\\n哈哈哈，好可愛", "이 사진 진짜 좋아\\n真的很喜歡這張照片"] },
     { id: "lina-ig-cake", title: "❤️🍰", body: "❤️🍰", richText: "", meta: { handle: "linaaa_" }, time: "2026-09-28", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cc/83/de/cc83ded3ccb56ec9c82c17e922a39745.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 64, comments: ["디저트 최고 🍰\\n甜點最棒了🍰", "맛있겠다!\\n看起來好好吃！"] }
   ];
@@ -403,7 +406,7 @@ export function MymyInstagram(p: SkinProps) {
       <header className="igph">
         <Avatar name={i.sender} src={i.avatar} />
         <div className="igpn">
-          <button onClick={() => setTab("个人主页")}>
+          <button onClick={() => { setIgAccount(i.sender === "_imnnin" ? "public" : i.sender === "zhvho24" ? "private" : "lina"); setTab("个人主页"); }}>
             <b>{i.sender}</b>
           </button>
           <small>{i.meta.location || i.time}</small>
