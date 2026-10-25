@@ -532,18 +532,24 @@ function PhoneRuntime({
                     } catch {
                       followup = undefined;
                     }
-                    // Keep this story beat reliable if metadata is absent in an older saved version.
-                    if (!followup && item.id === "cha-message-dinner") {
+                    if (item.id === "cha-message-dinner") {
+                      const answer = reply.label.trim();
+                      const ate = /吃了|吃過|吃过|吃完|有吃|吃好了|吃飽|吃饱|먹었어|먹었어요/.test(answer);
+                      const notYet = /還沒|还没|沒吃|没吃|尚未|還沒有|还没有|沒來得及|没来得及|아직 안 먹|안 먹었/.test(answer);
                       followup = {
                         sender: "차우민",
-                        body: "要不要打電話？",
+                        body: ate
+                          ? "잘했네, 리나야. 저녁 먹었구나. 그럼 우리 전화할까?\n真乖，莉娜有好好吃晚餐呢。那要不要打電話？"
+                          : notYet
+                            ? "이 시간까지 아직 저녁 안 먹었어? 내가 전화해서 뭐 먹을지 추천해 줄까?\n這麼晚了還沒吃晚餐嗎？要不要我打電話給你，順便推薦你吃什麼？"
+                            : "리나야, 저녁은 먹었어?\n莉娜，晚餐吃了嗎？",
                         avatar: item.avatar,
                         quickReplies: [
                           { label: "好呀，打給我吧", value: "call" },
                           { label: "今天先不用，歐巴也好好休息", value: "decline" },
                         ],
                         callOn: "call",
-                        declineReply: "好，那今天先好好休息。晚安。",
+                        declineReply: "그래, 알겠어. 오늘은 푹 쉬고 잘 자, 리나야. 좋은 꿈 꿔.\n好，那今天好好休息，晚安，莉娜。",
                       };
                     }
                     if (followup) {
