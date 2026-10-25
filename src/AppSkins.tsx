@@ -47,6 +47,7 @@ export type SkinProps = {
   onBack: () => void;
   thread: string;
   onThread: (s: string) => void;
+  onChatReply?: (item: Item, reply: { label: string; value: string }) => void;
 };
 function Avatar({
   name,
