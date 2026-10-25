@@ -535,6 +535,28 @@
 .mymy-ui .kzm.first {
   margin-top: 8px;
 }
+.mymy-ui .kzm {
+  min-width: 0;
+  width: 100%;
+}
+.mymy-ui .kzm.kzot {
+  align-items: flex-start;
+}
+.mymy-ui .kzm .kzbub {
+  display: block;
+  width: fit-content;
+  min-width: 0;
+  max-width: min(78%, 32rem);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  flex: 0 1 auto;
+  text-align: left;
+  font-family: inherit;
+}
+.mymy-ui .kzm.kzot .kzbub {
+  margin-left: 0;
+}
 .mymy-ui .kzbub {
   padding: 8px 11px;
   border-radius: 12px;
