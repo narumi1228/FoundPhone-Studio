@@ -1088,6 +1088,7 @@ function AppContent({
               onBack={onBack}
               thread={thread}
               onThread={setThread}
+              onChatReply={onChatReply}
             />
           </Suspense>
         </div>
