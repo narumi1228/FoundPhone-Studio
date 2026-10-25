@@ -365,8 +365,8 @@ export function MymyInstagram(p: SkinProps) {
 
   const linaPosts: Item[] = [
     { id: "lina-ig-photo", title: "🐾", body: "🐾", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-20", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/33/43/06/334306d4cabb96d1f66cc744c8045aec.jpg", kind: "image", media: "https://i.pinimg.com/1200x/a9/08/c2/a908c230613481912c91327bcbb602a6.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 87, comments: ["오늘도 예쁘다 🤍\\n今天也很漂亮🤍", "사진 분위기 너무 좋아\\n照片的氛圍真的很好"] },
-    { id: "lina-ig-pose", title: ":3", body: ":3", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-12", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cf/c4/1a/cfc41a1ca255989a819cdcf33ae6be6c.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 132, comments: ["ㅋㅋㅋ 귀여워\\n哈哈哈，好可愛", "이 사진 진짜 좋아\\n真的很喜歡這張照片"] },
-    { id: "lina-ig-cake", title: "❤️🍰", body: "❤️🍰", richText: "", meta: { handle: "linaaa_" }, time: "2026-09-28", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cc/83/de/cc83ded3ccb56ec9c82c17e922a39745.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 64, comments: ["디저트 최고 🍰\\n甜點最棒了🍰", "맛있겠다!\\n看起來好好吃！"] }
+    { id: "lina-ig-pose", title: ":3", body: ":3", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-12", sender: "linaaa_", avatar: igProfiles.lina.avatar, kind: "image", media: "https://i.pinimg.com/1200x/cf/c4/1a/cfc41a1ca255989a819cdcf33ae6be6c.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 132, comments: ["ㅋㅋㅋ 귀여워\\n哈哈哈，好可愛", "이 사진 진짜 좋아\\n真的很喜歡這張照片"] },
+    { id: "lina-ig-cake", title: "❤️🍰", body: "❤️🍰", richText: "", meta: { handle: "linaaa_" }, time: "2026-09-28", sender: "linaaa_", avatar: igProfiles.lina.avatar, kind: "image", media: "https://i.pinimg.com/1200x/cc/83/de/cc83ded3ccb56ec9c82c17e922a39745.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 64, comments: ["디저트 최고 🍰\\n甜點最棒了🍰", "맛있겠다!\\n看起來好好吃！"] }
   ];
   const posts = igAccount === "lina" ? [...linaPosts] : igAccount === "public" ? wooPublicPosts : wooPrivatePosts,
     allFeedPosts = [...linaPosts, ...wooPublicPosts, ...wooPrivatePosts],
@@ -543,11 +543,6 @@ export function MymyInstagram(p: SkinProps) {
               <p className="pn">{profile.handle}</p>
               {profile.bio && <p className="pn">{profile.bio}</p>}
               {igAccount === "private" && <p className="pn">🔒 私密帳號 · 與 linaaa_ 互相關注</p>}
-              <div className="ig-account-switch">
-                <button onClick={() => setIgAccount("lina")}>linaaa_</button>
-                <button onClick={() => setIgAccount("public")}>_imnnin</button>
-                <button onClick={() => setIgAccount("private")}>zhvho24</button>
-              </div>
               <div className="ptab">
                 <div className="on">
                   <Grid />
