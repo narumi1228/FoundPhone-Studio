@@ -56,6 +56,7 @@ import {
 import { getApp, type AppPlugin } from "./registry";
 import {
   initialRuntime,
+  makeItem,
   safeMedia,
   type Work,
   type Item,
@@ -64,6 +65,7 @@ import {
 } from "./schema";
 import { dispatch, choose, visible, advance } from "./engine";
 import { db } from "./persistence";
+import { saveIdFor } from "./saveKey";
 export function AppIcon({
   id,
   name,
@@ -200,7 +202,7 @@ function PhoneRuntime({
     let active = true;
     if (creator || external) return;
     void db.saves
-      .get(work.id)
+      .get(saveIdFor(work))
       .then((saved) => {
         if (!active) return;
         if (saved && saved.state.revision === work.updatedAt)
@@ -223,7 +225,7 @@ function PhoneRuntime({
   useEffect(() => {
     if (!creator && !external && ready)
       void db.saves
-        .put({ id: work.id, state: own })
+        .put({ id: saveIdFor(work), state: own })
         .catch(() => setLoadError("存档失败，请检查浏览器存储权限。"));
   }, [own, creator, work.id, external, ready]);
   useEffect(() => {
@@ -319,6 +321,7 @@ function PhoneRuntime({
       <KeyboardContext.Provider value={setKeyboard}>
         <div
           className={`phone-screen wallpaper-${work.phone.wallpaper} ${locked ? "is-locked" : ""} ${app ? "in-app" : ""} ${keyboard ? "keyboard-open" : ""}`}
+          style={{ backgroundImage: safeMedia(locked ? work.phone.lockWallpaper : !app ? work.phone.homeWallpaper : "") ? `url("${safeMedia(locked ? work.phone.lockWallpaper : !app ? work.phone.homeWallpaper : "")}")` : undefined, backgroundSize: "cover", backgroundPosition: "center" }}
           data-app={app}
           onDragStart={(e) => e.preventDefault()}
           onPointerDown={(e) => {
@@ -475,6 +478,75 @@ function PhoneRuntime({
                     );
                   }}
                   work={work}
+                  onChatReply={(item, reply) => {
+                    const now = `${runtimeRef.current.date || work.phone.date} ${runtimeRef.current.time || work.phone.time}`;
+                    const append = (message: Item) => ({
+                      ...runtimeRef.current,
+                      messages: {
+                        ...runtimeRef.current.messages,
+                        [app]: [...(runtimeRef.current.messages[app] ?? []), message],
+                      },
+                    });
+                    let next = append(makeItem({
+                      id: `reply-${crypto.randomUUID()}`,
+                      title: item.title,
+                      body: reply.label,
+                      sender: work.phone.owner,
+                      time: now,
+                      outgoing: true,
+                    }));
+                    let followup: { sender?: string; body?: string; avatar?: string; quickReplies?: { label: string; value: string }[]; callOn?: string; declineReply?: string } | undefined;
+                    try {
+                      followup = item.meta.replyFollowup ? JSON.parse(item.meta.replyFollowup) : undefined;
+                    } catch {
+                      followup = undefined;
+                    }
+                    if (followup) {
+                      next = {
+                        ...next,
+                        messages: {
+                          ...next.messages,
+                          [app]: [...(next.messages[app] ?? []), makeItem({
+                            id: `followup-${crypto.randomUUID()}`,
+                            title: item.title,
+                            body: followup.body || "",
+                            sender: followup.sender || item.sender,
+                            avatar: followup.avatar || item.avatar,
+                            time: now,
+                            meta: {
+                              ...(followup.quickReplies ? { quickReplies: JSON.stringify(followup.quickReplies) } : {}),
+                              ...(followup.callOn ? { callOn: followup.callOn } : {}),
+                              ...(followup.declineReply ? { declineReply: followup.declineReply } : {}),
+                            },
+                          })],
+                        },
+                      };
+                    } else if (item.meta.callOn) {
+                      if (reply.value === item.meta.callOn) {
+                        next = {
+                          ...next,
+                          incomingCall: { caller: item.sender, target: app, status: "ringing" },
+                          notifications: [...next.notifications, `${item.sender} 来电`],
+                        };
+                      } else if (item.meta.declineReply) {
+                        next = {
+                          ...next,
+                          messages: {
+                            ...next.messages,
+                            [app]: [...(next.messages[app] ?? []), makeItem({
+                              id: `declined-${crypto.randomUUID()}`,
+                              title: item.title,
+                              body: item.meta.declineReply,
+                              sender: item.sender,
+                              avatar: item.avatar,
+                              time: now,
+                            })],
+                          },
+                        };
+                      }
+                    }
+                    update(next);
+                  }}
                 />
               </AppWindow>
             ) : (
@@ -867,6 +939,7 @@ function AppContent({
   onSettings,
   onUi,
   work,
+  onChatReply,
 }: {
   app: AppPlugin;
   name: string;
@@ -880,6 +953,7 @@ function AppContent({
   onSettings?: () => void;
   onUi?: (key: string, value: UiValue) => void;
   work: Work;
+  onChatReply: (item: Item, reply: { label: string; value: string }) => void;
 }) {
   const [detail, setDetail] = useState<Item | null>(null);
   const [thread, setThread] = useState("");
@@ -1083,7 +1157,7 @@ function AppContent({
                 className={`message-row ${i.outgoing ? "outgoing" : ""}`}
                 onClick={() => (creator ? onEdit(i) : onRead(i.id))}
               >
-                <span className="avatar">{i.sender.slice(0, 1)}</span>
+                <span className="avatar">{safeMedia(i.avatar) ? <img src={safeMedia(i.avatar)} alt={i.sender} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} /> : i.sender.slice(0, 1)}</span>
                 <span className="bubble">
                   {i.kind === "image" ||
                   i.kind === "audio" ||
@@ -1106,15 +1180,25 @@ function AppContent({
                 </span>
               </button>
             ))}
-          {creator ? (
-            <button className="chat-compose" onClick={onAdd}>
-              ＋ 添加一条消息
-            </button>
-          ) : (
-            <div className="chat-compose muted">
-              根据剧情推进，互动回复将在这里出现。
-            </div>
-          )}
+          {!creator && (() => {
+            const last = shown.filter((i) => i.title === thread).at(-1);
+            let options: { label: string; value: string }[] = [];
+            try {
+              options = last?.meta.quickReplies ? JSON.parse(last.meta.quickReplies) : [];
+            } catch {
+              options = [];
+            }
+            return options.length ? (
+              <div className="chat-compose" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {options.map((reply) => (
+                  <button key={reply.value} style={{ borderRadius: 18, padding: "10px 14px", background: "#fff4c2", color: "#222", border: "1px solid #e5d9a0", textAlign: "left" }} onClick={() => last && onChatReply(last, reply)}>
+                    {reply.label}
+                  </button>
+                ))}
+              </div>
+            ) : <div className="chat-compose muted">等待新的訊息…</div>;
+          })()}
+          {creator && <button className="chat-compose" onClick={onAdd}>＋ 添加一条消息</button>}
         </div>
       ) : (
         <div
@@ -1144,7 +1228,7 @@ function AppContent({
                   }}
                 >
                   <span className="avatar" style={{ background: app.color }}>
-                    {t.slice(0, 1)}
+                    {safeMedia(last.avatar) ? <img src={safeMedia(last.avatar)} alt={t} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} /> : t.slice(0, 1)}
                   </span>
                   <span>
                     <strong>{t}</strong>
