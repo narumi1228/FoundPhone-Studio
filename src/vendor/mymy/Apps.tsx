@@ -329,6 +329,7 @@ export function MymyInstagram(p: SkinProps) {
     [saved, setSaved] = useSkinState<string[]>(p, "mymySaved", []),
     [replies, setReplies] = useSkinState<string[]>(p, "mymyReplies", []),
     [seen, setSeen] = useSkinState<string[]>(p, "mymySeen", []);
+  const [igFollowing, setIgFollowing] = useSkinState<string[]>(p, "mymyIgFollowing", ["public", "private"]);
   const [sheet, setSheet] = useState<Item | null>(null),
     [selected, setSelected] = useState<Item | null>(null),
     [selectedDm, setSelectedDm] = useState(false),
@@ -546,6 +547,19 @@ export function MymyInstagram(p: SkinProps) {
               <p className="pn">{profile.handle}</p>
               {profile.bio && <p className="pn">{profile.bio}</p>}
               {igAccount === "private" && <p className="pn">🔒 私密帳號 · 與 linaaa_ 互相關注</p>}
+              <div style={{display:"flex",gap:8,padding:"12px 16px"}}>
+                {igAccount === "lina" ? (
+                  <>
+                    <button type="button" style={{flex:1,padding:8,borderRadius:8,border:"1px solid #dbdbdb",fontWeight:600}} onClick={() => setPop("編輯個人檔案")}>Edit profile</button>
+                    <button type="button" style={{flex:1,padding:8,borderRadius:8,border:"1px solid #dbdbdb",fontWeight:600}} onClick={() => setPop("分享個人檔案")}>Share profile</button>
+                  </>
+                ) : (
+                  <>
+                    <button type="button" style={{flex:1,padding:8,borderRadius:8,border:"1px solid #dbdbdb",background:igFollowing.includes(igAccount)?"#efefef":"#0095f6",color:igFollowing.includes(igAccount)?"#111":"white",fontWeight:600}} onClick={() => toggle(igAccount,igFollowing,setIgFollowing)}>{igFollowing.includes(igAccount)?"Following":"Follow"}</button>
+                    <button type="button" style={{flex:1,padding:8,borderRadius:8,border:"1px solid #dbdbdb",fontWeight:600}} onClick={() => {setSelectedDm(true);setTab("私信");}}>Message</button>
+                  </>
+                )}
+              </div>
               <div className="ptab">
                 <div className="on">
                   <Grid />
