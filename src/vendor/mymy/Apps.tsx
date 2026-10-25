@@ -339,7 +339,7 @@ export function MymyInstagram(p: SkinProps) {
   const igProfiles = {
     lina: { handle: "linaaa_", name: "linaaa_", avatar: "https://i.pinimg.com/736x/33/43/06/334306d4cabb96d1f66cc744c8045aec.jpg", bio: "serendipity  @_imnnin", count: "3", followers: "524", following: "446" },
     public: { handle: "_imnnin", name: "Woominwoo", avatar: "https://i.pinimg.com/736x/61/ee/d0/61eed02c1e2ee6b482da48f84ea4cb53.jpg", bio: "Woominwoo", count: "132", followers: "1.9M", following: "2" },
-    private: { handle: "zhvho24", name: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", bio: "", count: "13", followers: "154", following: "154" }
+    private: { handle: "zhvho24", name: "zhvho24", avatar: "https://i.pinimg.com/736x/b2/a5/b0/b2a5b0e35439b3e4b54b0858d064936f.jpg", bio: "", count: "13", followers: "154", following: "154" }
   };
   const profile = igProfiles[igAccount];
   const wooPublicPosts: Item[] = [
