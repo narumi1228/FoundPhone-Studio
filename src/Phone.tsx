@@ -501,6 +501,20 @@ function PhoneRuntime({
                     } catch {
                       followup = undefined;
                     }
+                    // Keep this story beat reliable if metadata is absent in an older saved version.
+                    if (!followup && item.id === "cha-message-dinner") {
+                      followup = {
+                        sender: "차우민",
+                        body: "要不要打電話？",
+                        avatar: item.avatar,
+                        quickReplies: [
+                          { label: "好呀，打給我吧", value: "call" },
+                          { label: "今天先不用，歐巴也好好休息", value: "decline" },
+                        ],
+                        callOn: "call",
+                        declineReply: "好，那今天先好好休息。晚安。",
+                      };
+                    }
                     if (followup) {
                       next = {
                         ...next,
