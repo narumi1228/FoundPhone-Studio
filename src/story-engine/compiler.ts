@@ -108,6 +108,10 @@ export class StoryIssue extends Error {
 }
 export function compileStory(raw: unknown): { story: Story; work: Work } {
   const s = storySchema.parse(raw);
+  for (const field of ["lockWallpaper", "homeWallpaper"] as const) {
+    if (s.phone[field] && !safeMedia(s.phone[field]))
+      throw new StoryIssue(`phone.${field}`, "壁紙只允許內嵌圖片或受信任的 Pinterest 圖片連結");
+  }
   const fail = (p: string, m: string): never => {
     throw new StoryIssue(p, m);
   };
