@@ -585,7 +585,8 @@ function PhoneRuntime({
                       };
                     }
 
-                    update(next);
+                    // Give Cha a natural typing pause before his next message or call arrives.
+                    setTimeout(() => update(next), 1100 + Math.floor(Math.random() * 1500));
                     if (reply.value === "typed") {
                       void (async () => {
                         const recentItems = [
