@@ -1324,3 +1324,7 @@
   grid-template-rows: repeat(6, 99px);
   grid-auto-rows: 99px;
 }
+
+.phone-screen.custom-wallpaper > .wallpaper-orb {
+  display: none;
+}
