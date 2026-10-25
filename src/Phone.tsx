@@ -536,6 +536,33 @@ function PhoneRuntime({
                         declineReply: "그래, 알겠어. 오늘은 푹 쉬고 잘 자, 리나야. 좋은 꿈 꿔.\n好，那今天好好休息，晚安，莉娜。",
                       };
                     }
+                    if (item.meta.callOn) {
+                      const answer = reply.label.trim().toLowerCase();
+                      const acceptsCall = reply.value === item.meta.callOn ||
+                        /打電話|打电话|可以打|打給我|打给我|好呀|好啊|可以呀|可以啊|call|전화해|전화할래|좋아/.test(answer);
+                      if (acceptsCall) {
+                        next = {
+                          ...next,
+                          incomingCall: { caller: item.sender, target: app, status: "ringing" },
+                          notifications: [...next.notifications, item.sender + " 来电"],
+                        };
+                      } else if (item.meta.declineReply) {
+                        next = {
+                          ...next,
+                          messages: {
+                            ...next.messages,
+                            [app]: [...(next.messages[app] ?? []), makeItem({
+                              id: "declined-" + crypto.randomUUID(),
+                              title: item.title,
+                              body: item.meta.declineReply,
+                              sender: item.sender,
+                              avatar: item.avatar,
+                              time: now,
+                            })],
+                          },
+                        };
+                      }
+                    }
                     if (followup) {
                       next = {
                         ...next,
@@ -612,22 +639,21 @@ function PhoneRuntime({
                           });
                           const data = await response.json();
                           if (!response.ok || typeof data.reply !== "string") {
-                            const notice = data.code === "AI_NOT_CONFIGURED"
-                              ? "（AI 聊天尚未完成設定，請稍後再試。）"
-                              : "（剛剛訊息沒有送成功，請稍後再試一次。）";
-                            update({
-                              ...runtimeRef.current,
-                              messages: {
-                                ...runtimeRef.current.messages,
-                                [app]: [...(runtimeRef.current.messages[app] ?? []), makeItem({
-                                  id: `ai-status-${crypto.randomUUID()}`,
-                                  title: item.title,
-                                  body: notice,
-                                  sender: "系統",
-                                  time: now,
-                                })],
-                              },
-                            });
+                            if (data.code !== "AI_NOT_CONFIGURED") {
+                              update({
+                                ...runtimeRef.current,
+                                messages: {
+                                  ...runtimeRef.current.messages,
+                                  [app]: [...(runtimeRef.current.messages[app] ?? []), makeItem({
+                                    id: `ai-status-${crypto.randomUUID()}`,
+                                    title: item.title,
+                                    body: "（剛剛訊息沒有送成功，請稍後再試一次。）",
+                                    sender: "系統",
+                                    time: now,
+                                  })],
+                                },
+                              });
+                            }
                             return;
                           }
                           const replyTime = `${runtimeRef.current.date || work.phone.date} ${runtimeRef.current.time || work.phone.time}`;
