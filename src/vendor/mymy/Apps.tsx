@@ -155,11 +155,45 @@ export function MymyKakao(p: SkinProps) {
             })}
             {!messages.length && <Blank />}
           </div>
+          {!p.creator && (() => {
+            const last = messages.at(-1);
+            let options: { label: string; value: string }[] = [];
+            try {
+              options = last?.meta.quickReplies ? JSON.parse(last.meta.quickReplies) : [];
+            } catch {
+              options = [];
+            }
+            return last && options.length ? (
+              <div className="kzinp" style={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: 8, padding: "10px 12px" }}>
+                {options.map((reply) => (
+                  <button
+                    key={reply.value}
+                    type="button"
+                    style={{ borderRadius: 18, padding: "10px 14px", background: "#fff4c2", color: "#222", border: "1px solid #e5d9a0", textAlign: "left" }}
+                    onClick={() => p.onChatReply?.(last, reply)}
+                  >
+                    {reply.label}
+                  </button>
+                ))}
+              </div>
+            ) : null;
+          })()}
           <form
             className="kzinp"
             onSubmit={(e) => {
               e.preventDefault();
-              if (draft.trim()) {
+              if (!draft.trim()) return;
+              const last = messages.at(-1);
+              let options: { label: string; value: string }[] = [];
+              try {
+                options = last?.meta.quickReplies ? JSON.parse(last.meta.quickReplies) : [];
+              } catch {
+                options = [];
+              }
+              if (last && !last.outgoing && options.length && p.onChatReply) {
+                const value = options.some((option) => option.value === "call") ? "decline" : "typed";
+                p.onChatReply(last, { label: draft.trim(), value });
+              } else {
                 setSent([
                   ...sent,
                   JSON.stringify([
@@ -168,8 +202,8 @@ export function MymyKakao(p: SkinProps) {
                     p.virtualTime || "09:41",
                   ]),
                 ]);
-                setDraft("");
               }
+              setDraft("");
             }}
           >
             <button
