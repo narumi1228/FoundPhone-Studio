@@ -583,33 +583,8 @@ function PhoneRuntime({
                           })],
                         },
                       };
-                    } else if (item.meta.callOn) {
-                      const typed = reply.label.trim().toLowerCase();
-                      const acceptsCall = reply.value === item.meta.callOn ||
-                        /打電話|打电话|可以打|打給我|打给我|好呀|好啊|可以呀|可以啊|call|전화해|전화할래|좋아/.test(typed);
-                      if (acceptsCall) {
-                        next = {
-                          ...next,
-                          incomingCall: { caller: item.sender, target: app, status: "ringing" },
-                          notifications: [...next.notifications, `${item.sender} 来电`],
-                        };
-                      } else if (item.meta.declineReply && /不用|不要|先不|改天|明天|休息|拒絕|拒绝|不方便|不行|晚安|decline|no thanks/.test(reply.label.trim().toLowerCase())) {
-                        next = {
-                          ...next,
-                          messages: {
-                            ...next.messages,
-                            [app]: [...(next.messages[app] ?? []), makeItem({
-                              id: `declined-${crypto.randomUUID()}`,
-                              title: item.title,
-                              body: item.meta.declineReply,
-                              sender: item.sender,
-                              avatar: item.avatar,
-                              time: now,
-                            })],
-                          },
-                        };
-                      }
                     }
+
                     update(next);
                     if (reply.value === "typed") {
                       void (async () => {
