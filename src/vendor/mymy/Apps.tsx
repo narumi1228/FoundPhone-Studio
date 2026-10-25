@@ -361,7 +361,7 @@ export function MymyInstagram(p: SkinProps) {
     "https://i.pinimg.com/736x/c6/84/3a/c6843a50e541504c74f2e2db43cc3163.jpg",
     "https://i.pinimg.com/736x/e4/c4/28/e4c4289549e4cdb26d3a44d16c5949f7.jpg"
   ];
-  const wooPrivatePosts: Item[] = wooPrivateImages.map((media, n) => ({ id: "woo-private-" + n, title: "", body: "", richText: "", meta: {}, time: "2026-10-" + String(24 - n).padStart(2, "0"), sender: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", kind: "image", media, hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 40 + n * 7, comments: ["ㅋㅋㅋㅋ\n哈哈哈", "이거 언제 찍었지\n這什麼時候拍的"], }));
+  const wooPrivatePosts: Item[] = wooPrivateImages.map((media, n) => ({ id: "woo-private-" + n, title: "", body: "", richText: "", meta: {}, time: "2026-10-" + String(24 - n).padStart(2, "0"), sender: "zhvho24", avatar: "https://i.pinimg.com/736x/b2/a5/b0/b2a5b0e35439b3e4b54b0858d064936f.jpg", kind: "image", media, hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 40 + n * 7, comments: ["ㅋㅋㅋㅋ\n哈哈哈", "이거 언제 찍었지\n這什麼時候拍的"], }));
 
   const linaPosts: Item[] = [
     { id: "lina-ig-photo", title: "🐾", body: "🐾", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-20", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/33/43/06/334306d4cabb96d1f66cc744c8045aec.jpg", kind: "image", media: "https://i.pinimg.com/1200x/a9/08/c2/a908c230613481912c91327bcbb602a6.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 87, comments: ["오늘도 예쁘다 🤍\\n今天也很漂亮🤍", "사진 분위기 너무 좋아\\n照片的氛圍真的很好"] },
@@ -373,9 +373,9 @@ export function MymyInstagram(p: SkinProps) {
 
     stories = p.items.filter((i) => i.meta.story === "true"),
     dms = [...p.items.filter((i) => i.folder === "私信"), ...[
-      { id: "woo-dm-1", title: "zhvho24", body: "집 도착했어?\n到家了嗎？", richText: "", meta: {}, time: "23:18", sender: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", kind: "text" as const, media: "", hidden: false, unlock: "", password: "", folder: "私信", favorite: false, outgoing: false, read: false, likes: 0, comments: [] },
-      { id: "woo-dm-2", title: "zhvho24", body: "오늘 사진 올린 거 봤어? 너 생각나서 보냈어.\n看到我今天發的照片了嗎？因為想到你才傳給你的。", richText: "", meta: {}, time: "23:21", sender: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", kind: "text" as const, media: "", hidden: false, unlock: "", password: "", folder: "私信", favorite: false, outgoing: false, read: false, likes: 0, comments: [] },
-      { id: "woo-dm-3", title: "zhvho24", body: "보고 싶다. 내일 끝나고 잠깐 볼래?\n想你了。明天工作結束後要不要見一下？", richText: "", meta: {}, time: "23:24", sender: "zhvho24", avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3C/svg%3E", kind: "text" as const, media: "", hidden: false, unlock: "", password: "", folder: "私信", favorite: false, outgoing: false, read: false, likes: 0, comments: [] }
+      { id: "woo-dm-1", title: "zhvho24", body: "집 도착했어?\n到家了嗎？", richText: "", meta: {}, time: "23:18", sender: "zhvho24", avatar: "https://i.pinimg.com/736x/b2/a5/b0/b2a5b0e35439b3e4b54b0858d064936f.jpg", kind: "text" as const, media: "", hidden: false, unlock: "", password: "", folder: "私信", favorite: false, outgoing: false, read: false, likes: 0, comments: [] },
+      { id: "woo-dm-2", title: "zhvho24", body: "오늘 사진 올린 거 봤어? 너 생각나서 보냈어.\n看到我今天發的照片了嗎？因為想到你才傳給你的。", richText: "", meta: {}, time: "23:21", sender: "zhvho24", avatar: "https://i.pinimg.com/736x/b2/a5/b0/b2a5b0e35439b3e4b54b0858d064936f.jpg", kind: "text" as const, media: "", hidden: false, unlock: "", password: "", folder: "私信", favorite: false, outgoing: false, read: false, likes: 0, comments: [] },
+      { id: "woo-dm-3", title: "zhvho24", body: "보고 싶다. 내일 끝나고 잠깐 볼래?\n想你了。明天工作結束後要不要見一下？", richText: "", meta: {}, time: "23:24", sender: "zhvho24", avatar: "https://i.pinimg.com/736x/b2/a5/b0/b2a5b0e35439b3e4b54b0858d064936f.jpg", kind: "text" as const, media: "", hidden: false, unlock: "", password: "", folder: "私信", favorite: false, outgoing: false, read: false, likes: 0, comments: [] }
     ]],
     active = stories[story - 1];
   const toggle = (id: string, values: string[], set: (v: string[]) => void) =>
@@ -597,6 +597,7 @@ export function MymyInstagram(p: SkinProps) {
               onClick={() => {
                 setSelected(null);
                 setTab(["主页", "搜索", "私信", "个人主页"][n]);
+                if (n === 3) setIgAccount("lina");
               }}
             >
               <Icon />
