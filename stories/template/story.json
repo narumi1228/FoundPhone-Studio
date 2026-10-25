@@ -1,16 +1,19 @@
 {
   "scriptVersion": 1,
-  "id": "ui-test-phone-v2",
-  "title": "捡手机",
-  "description": "仅用于界面测试，不含剧情",
-  "revision": 2,
+  "id": "lina-cha-woomin-20261025",
+  "title": "莉娜的手機",
+  "description": "莉娜的私人手機故事；獨立存檔與角色資料。",
+  "revision": 3,
   "phone": {
-    "owner": "机主",
+    "owner": "莉娜",
     "date": "2026-10-25",
-    "time": "09:41",
+    "time": "22:00",
     "battery": 94,
     "network": "5G",
-    "wallpaper": "apple-wwdc26"
+    "wallpaper": "apple-wwdc26",
+    "passcode": "0916",
+    "lockWallpaper": "https://i.pinimg.com/736x/10/e6/7c/10e67ca1875d22a4eb162cf6934093b5.jpg",
+    "homeWallpaper": "https://i.pinimg.com/736x/ec/fd/60/ecfd60ed3d5abf431b6130feae9d551a.jpg"
   },
   "installedApps": [
     "appstore",
@@ -93,6 +96,13 @@
       "name": "测试联系人",
       "phone": "",
       "bio": "这是一条测试内容。"
+    },
+    {
+      "id": "cha-woomin",
+      "name": "차우민",
+      "phone": "",
+      "avatar": "https://i.pinimg.com/1200x/e4/32/a7/e432a74d5aac50eaefde332041f52c81.jpg",
+      "bio": ""
     }
   ],
   "chats": [
@@ -225,23 +235,41 @@
       ]
     },
     {
-      "id": "test-chat-kakao",
+      "id": "chat-cha-woomin",
       "app": "kakao",
-      "title": "测试会话",
+      "title": "차우민",
       "participants": [
         "owner",
-        "test-contact"
+        "cha-woomin"
       ],
       "messages": [
         {
-          "id": "test-message-kakao",
-          "body": "这是一条测试消息。",
-          "senderId": "test-contact"
+          "id": "cha-message-after-work",
+          "body": "剛下班，今天也努力工作了。",
+          "senderId": "cha-woomin",
+          "time": "2026-10-25 22:00",
+          "avatar": "https://i.pinimg.com/1200x/e4/32/a7/e432a74d5aac50eaefde332041f52c81.jpg"
         },
         {
-          "id": "test-reply-kakao",
-          "body": "这是一条测试回复。",
-          "senderId": "owner"
+          "id": "cha-report-photo",
+          "title": "차우민",
+          "body": "報備照",
+          "senderId": "cha-woomin",
+          "time": "2026-10-25 22:00",
+          "kind": "image",
+          "media": "https://i.pinimg.com/736x/a7/c3/f1/a7c3f1c80f879aff314d9d9fbb42935c.jpg",
+          "avatar": "https://i.pinimg.com/1200x/e4/32/a7/e432a74d5aac50eaefde332041f52c81.jpg"
+        },
+        {
+          "id": "cha-message-dinner",
+          "body": "吃晚飯了嗎？",
+          "senderId": "cha-woomin",
+          "time": "2026-10-25 22:03",
+          "avatar": "https://i.pinimg.com/1200x/e4/32/a7/e432a74d5aac50eaefde332041f52c81.jpg",
+          "meta": {
+            "quickReplies": "[{\"label\":\"吃了，歐巴呢？\",\"value\":\"ate\"},{\"label\":\"還沒，正準備吃。\",\"value\":\"not-yet\"},{\"label\":\"還沒，今天有點累。\",\"value\":\"tired\"}]",
+            "replyFollowup": "{\"sender\":\"차우민\",\"body\":\"要不要打電話？\",\"avatar\":\"https://i.pinimg.com/1200x/e4/32/a7/e432a74d5aac50eaefde332041f52c81.jpg\",\"quickReplies\":[{\"label\":\"好呀，打給我吧\",\"value\":\"call\"},{\"label\":\"今天先不用，歐巴也好好休息\",\"value\":\"decline\"}],\"callOn\":\"call\",\"declineReply\":\"好，那今天先好好休息。晚安。\"}"
+          }
         }
       ]
     }
