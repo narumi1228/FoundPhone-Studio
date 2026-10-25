@@ -143,38 +143,21 @@ function PhoneRuntime({
   const [recent, setRecent] = useState<string[]>([]);
   const appSnapshots = useRef(new Map<string, HTMLElement>());
   const [banner, setBanner] = useState("");
-  const [callDraft, setCallDraft] = useState("");
-  const [callDialogue, setCallDialogue] = useState<{ speaker: string; text: string }[]>([]);
-  const callTurn = useRef(0);
+  const [callDialogue, setCallDialogue] = useState<{ speaker: string; text: string; translation: string }[]>([]);
+  const [callLineIndex, setCallLineIndex] = useState(0);
   const startCallDialogue = () => {
-    callTurn.current = 0;
-    setCallDraft("");
+    setCallLineIndex(0);
     setCallDialogue([
-      { speaker: "차우민", text: "여보세요? 리나야, 내 목소리 잘 들려? ㅋㅋㅋ 드디어 전화하네." },
-      { speaker: "차우민", text: "오늘 촬영이 생각보다 길어졌어. 마지막 장면을 몇 번이나 다시 찍었거든. 그래도 끝나고 네 생각나서 바로 전화했어." },
-      { speaker: "차우민", text: "너는 오늘 어땠어? 밥은 잘 챙겨 먹었어? 나 지금은 좀 피곤한데 네 목소리 들으니까 기분이 풀린다." },
+      { speaker: "차우민", text: "여보세요? 리나야, 내 목소리 잘 들려?", translation: "喂？莉娜啊，聽得到我的聲音嗎？" },
+      { speaker: "차우민", text: "ㅋㅋㅋ 드디어 너한테 전화하네. 사실 아까부터 전화하고 싶었어.", translation: "ㅋㅋㅋ 終於打電話給你了。其實我從剛才就一直想打給你。" },
+      { speaker: "차우민", text: "오늘 촬영이 생각보다 길어졌어. 마지막 장면을 몇 번이나 다시 찍었거든.", translation: "今天拍攝比想像中還久，最後一個場景重拍了好幾次。" },
+      { speaker: "차우민", text: "그래도 끝나고 나니까 제일 먼저 네 생각이 나더라.", translation: "不過結束之後，我第一個想到的人還是你。" },
+      { speaker: "차우민", text: "리나는 오늘 어땠어? 밥은 잘 챙겨 먹었어?", translation: "莉娜今天過得怎麼樣？有好好吃飯嗎？" },
+      { speaker: "차우민", text: "나 지금은 좀 피곤한데, 네 목소리 들으니까 기분이 풀린다.", translation: "我現在是有點累啦，但一聽到你的聲音，心情就好多了。" },
+      { speaker: "차우민", text: "조금만 더 통화하다 잘까? 오늘은 네 목소리 조금 더 듣고 싶어.", translation: "要不要再聊一下再睡？今天還想再多聽一會兒你的聲音。" },
     ]);
   };
-  const sendCallMessage = () => {
-    const text = callDraft.trim();
-    if (!text || runtimeRef.current.incomingCall?.status !== "answered") return;
-    const lower = text.toLowerCase();
-    const replies = /累|辛苦|工作|拍攝|拍戏|촬영|피곤|힘들/.test(lower)
-      ? ["ㅋㅋㅋ 고마워. 네가 그렇게 말해 주니까 오늘 고생한 보람이 있네. 다음엔 네가 좋아하는 거 먹으러 가자. 내가 살게.", "맞아, 조금 힘들긴 했어. 근데 지금은 괜찮아. 리나도 오늘 수고 많았어. 내가 옆에 있었으면 꼭 안아 줬을 텐데."]
-      : /想你|想我|보고 싶|보고싶|想見|見面|보고 싶어/.test(lower)
-      ? ["나도 보고 싶어. 전화 끊고 나면 더 보고 싶어질 것 같은데 어떡하지? ㅋㅋㅋ", "진짜? 나 지금 웃고 있는 거 너한테 보였으면 좋겠다. 다음에 만나면 오늘 못 한 얘기까지 다 해 줘."]
-      : /喜歡|愛你|좋아해|사랑해|可愛|귀여/.test(lower)
-      ? ["아, 그런 말 갑자기 하면 나도 부끄럽잖아. 나도 많이 좋아해, 리나야.", "너는 꼭 이렇게 사람 심장 간지럽히더라. 나도 좋아해. 오늘은 조금 더 오래 통화하자."]
-      : /吃|飯|晚餐|午餐|밥|먹었/.test(lower)
-      ? ["나는 촬영 끝나고 간단하게 먹었어. 너는 뭐 먹었어? 안 먹었으면 지금이라도 꼭 챙겨 먹기. 약속.", "아, 그거 맛있겠다. 다음엔 나랑 같이 먹자. 같이 먹으면 더 맛있을 것 같아."]
-      : /學校|上課|作業|考試|課業|학교|공부/.test(lower)
-      ? ["오늘도 학교랑 이것저것 하느라 바빴구나. 너무 무리하지 마. 잘하고 있는 거 알아도 내가 한 번 더 칭찬해 주고 싶네.", "고생했어, 리나야. 오늘 해야 할 일 다 못 끝냈어도 괜찮으니까 너무 자책하지 말고."]
-      : ["ㅋㅋㅋ 계속 듣고 있어. 네 얘기 더 해 줘. 오늘 네 하루가 어땠는지 궁금해.", "그랬구나. 나한테 얘기해 줘서 고마워. 너랑 이렇게 전화하는 거 생각보다 훨씬 좋다.", "리나야, 잠깐만. 나 지금 웃고 있어. 네가 전화로 말해 주니까 괜히 더 가까이 있는 것 같아.", "오늘 있었던 일은 내가 더 얘기해 줄게. 촬영장에서 작은 실수가 있었는데 다 같이 웃으면서 넘겼어. 끝나고 나니까 이런 평범한 얘기를 제일 먼저 너한테 해 주고 싶더라."];
-    const answer = replies[callTurn.current % replies.length];
-    callTurn.current += 1;
-    setCallDialogue((current) => [...current, { speaker: work.phone.owner, text }, { speaker: "차우민", text: answer }]);
-    setCallDraft("");
-  };
+  const advanceCallLine = () => setCallLineIndex((index) => Math.min(index + 1, callDialogue.length - 1));
   const noticesSeen = useRef(0);
   const [contextApp, setContextApp] = useState("");
   const [deviceScale, setDeviceScale] = useState(0.84);
@@ -834,18 +817,17 @@ function PhoneRuntime({
               </div>
               <h2>{s.incomingCall.caller}</h2>
               {s.incomingCall.status === "answered" && (
-                <div style={{ width: "100%", maxWidth: 320, maxHeight: 330, overflowY: "auto", display: "flex", flexDirection: "column", gap: 10, padding: "12px 0", textAlign: "left" }}>
-                  {callDialogue.map((line, index) => (
-                    <div key={index} style={{ alignSelf: line.speaker === "차우민" ? "flex-start" : "flex-end", maxWidth: "88%", background: line.speaker === "차우민" ? "rgba(255,255,255,.18)" : "rgba(255,220,225,.95)", color: line.speaker === "차우민" ? "white" : "#542b36", borderRadius: 16, padding: "9px 12px", fontSize: 13, lineHeight: 1.45 }}>
-                      <small style={{ display: "block", opacity: .75, marginBottom: 3 }}>{line.speaker === "차우민" ? "차우민 · 車禹闵" : "你"}</small>
-                      {line.text}
-                    </div>
-                  ))}
-                  <form onSubmit={(event) => { event.preventDefault(); sendCallMessage(); }} style={{ display: "flex", gap: 6, position: "sticky", bottom: 0, padding: "8px 0", background: "rgba(25,25,35,.92)" }}>
-                    <input aria-label="通話中輸入訊息" value={callDraft} onChange={(event) => setCallDraft(event.target.value)} placeholder="說點什麼…" maxLength={500} style={{ minWidth: 0, flex: 1, border: "1px solid #ffffff55", borderRadius: 18, padding: "10px 12px", background: "#ffffff18", color: "white", outline: "none" }} />
-                    <button type="submit" aria-label="送出通話訊息" style={{ border: 0, borderRadius: 18, padding: "0 13px", background: "#f5a9ba", color: "#44202b" }}>送出</button>
-                  </form>
-                </div>
+                <button
+                  type="button"
+                  aria-label="下一句通話字幕"
+                  onClick={advanceCallLine}
+                  style={{ width: "100%", maxWidth: 340, minHeight: 190, margin: "auto 0", padding: "24px 20px", border: "0", background: "transparent", color: "#fff", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: 16, textAlign: "center", cursor: "pointer" }}
+                >
+                  <span style={{ fontSize: 11, letterSpacing: 3, opacity: .7 }}>LIVE CALL · 通話字幕</span>
+                  <span style={{ fontSize: 20, fontWeight: 600, lineHeight: 1.6 }}>{callDialogue[callLineIndex]?.text || "여보세요?"}</span>
+                  <span style={{ fontSize: 16, lineHeight: 1.7, color: "#ffdbe4" }}>{callDialogue[callLineIndex]?.translation || "喂？"}</span>
+                  <span style={{ fontSize: 11, opacity: .65, marginTop: 12 }}>{callLineIndex < callDialogue.length - 1 ? "輕觸畫面，播放下一句" : "已播放目前所有字幕"}</span>
+                </button>
               )}
               <div className="incoming-actions">
                 <button
