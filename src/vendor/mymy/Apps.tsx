@@ -279,7 +279,7 @@ export function MymyKakao(p: SkinProps) {
                     key={g.title}
                     onClick={() => p.onThread(g.title)}
                   >
-                    <Avatar name={last.sender || g.title} src={last.avatar} />
+                    <Avatar name={last.sender || g.title} src={last.sender === "차우민" ? "https://i.pinimg.com/1200x/e4/32/a7/e432a74d5aac50eaefde332041f52c81.jpg" : last.avatar} />
                     <span className="kzkn">
                       <b>{g.title}</b>
                       <small>{tab === "好友" ? last.sender : last.body}</small>
@@ -335,15 +335,39 @@ export function MymyInstagram(p: SkinProps) {
     [draft, setDraft] = useState(""),
     [pop, setPop] = useState("");
   const linaProfile = /莉娜|lina/i.test(p.owner || "");
+  const [igAccount, setIgAccount] = useState<"lina" | "public" | "private">("lina");
+  const igProfiles = {
+    lina: { handle: "linaaa_", name: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", bio: "serendipity  @_imnnin", count: "3", followers: "524", following: "446" },
+    public: { handle: "_imnnin", name: "Woominwoo", avatar: "https://i.pinimg.com/736x/61/ee/d0/61eed02c1e2ee6b482da48f84ea4cb53.jpg", bio: "Woominwoo", count: "132", followers: "1.9M", following: "2" },
+    private: { handle: "zhvho24", name: "zhvho24", avatar: "", bio: "", count: "13", followers: "154", following: "154" }
+  };
+  const profile = igProfiles[igAccount];
+  const wooPublicPosts: Item[] = [
+    { id: "woo-public-1", title: "", body: "", richText: "", meta: {}, time: "2026-10-22", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://i.pinimg.com/736x/61/ee/d0/61eed02c1e2ee6b482da48f84ea4cb53.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 48200, comments: ["분위기 미쳤다 😭\n氛圍真的絕了😭", "오늘도 잘생겼어요\n今天也好帥"], },
+    { id: "woo-public-2", title: "", body: "", richText: "", meta: {}, time: "2026-10-18", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://i.pinimg.com/1200x/a9/08/c2/a908c230613481912c91327bcbb602a6.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 126000, comments: ["이 사진 너무 좋아요\n好喜歡這張照片", "화보 같아\n像畫報一樣"], },
+    { id: "woo-public-3", title: "", body: "", richText: "", meta: {}, time: "2026-10-15", sender: "_imnnin", avatar: igProfiles.public.avatar, kind: "image", media: "https://i.pinimg.com/736x/61/ee/d0/61eed02c1e2ee6b482da48f84ea4cb53.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 76300, comments: ["최고야 🖤\n最棒了🖤", "사랑해요\n喜歡你"], }
+  ];
+  const wooPrivateImages = [
+    "https://i.pinimg.com/736x/68/b4/c4/68b4c465743015be7b5bf5a195a3b6e9.jpg",
+    "https://i.pinimg.com/736x/ca/a8/85/caa885530fc32e28e8388d7da80361b4.jpg",
+    "https://i.pinimg.com/736x/3c/65/09/3c65097195b8b1540d6d37e07f896915.jpg",
+    "https://i.pinimg.com/736x/2a/f7/69/2af7695b0eb0514fe3419b6ec99d0f8d.jpg",
+    "https://i.pinimg.com/736x/34/9f/0e/349f0e7a7ab31284fdc6dad148004ed4.jpg",
+    "https://i.pinimg.com/736x/b8/ed/cb/b8edcbea1cb9ce47af8e0f00423561fe.jpg",
+    "https://i.pinimg.com/736x/68/99/74/68997434c5b287900cf00535d3e26039.jpg",
+    "https://i.pinimg.com/736x/c6/84/3a/c6843a50e541504c74f2e2db43cc3163.jpg",
+    "https://i.pinimg.com/736x/e4/c4/28/e4c4289549e4cdb26d3a44d16c5949f7.jpg"
+  ];
+  const wooPrivatePosts: Item[] = wooPrivateImages.map((media, n) => ({ id: "woo-private-" + n, title: "", body: "", richText: "", meta: {}, time: "2026-10-" + String(24 - n).padStart(2, "0"), sender: "zhvho24", avatar: "", kind: "image", media, hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 40 + n * 7, comments: ["ㅋㅋㅋㅋ\n哈哈哈", "이거 언제 찍었지\n這什麼時候拍的"], }));
+
   const linaPosts: Item[] = [
     { id: "lina-ig-photo", title: "🐾", body: "🐾", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-20", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/a9/08/c2/a908c230613481912c91327bcbb602a6.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 87, comments: ["오늘도 예쁘다 🤍", "사진 분위기 너무 좋아"] },
     { id: "lina-ig-pose", title: ":3", body: ":3", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-12", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cf/c4/1a/cfc41a1ca255989a819cdcf33ae6be6c.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 132, comments: ["ㅋㅋㅋ 귀여워", "이 사진 진짜 좋아"] },
     { id: "lina-ig-cake", title: "❤️🍰", body: "❤️🍰", richText: "", meta: { handle: "linaaa_" }, time: "2026-09-28", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cc/83/de/cc83ded3ccb56ec9c82c17e922a39745.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 64, comments: ["디저트 최고 🍰", "맛있겠다!"] }
   ];
-  const posts = [
-      ...(linaProfile ? linaPosts : []),
-      ...p.items.filter((i) => i.folder !== "私信" && i.meta.story !== "true")
-    ],
+  const posts = igAccount === "lina" ? [...linaPosts] : igAccount === "public" ? wooPublicPosts : wooPrivatePosts,
+    allFeedPosts = [...linaPosts, ...wooPublicPosts, ...wooPrivatePosts],
+
     stories = p.items.filter((i) => i.meta.story === "true"),
     dms = p.items.filter((i) => i.folder === "私信"),
     active = stories[story - 1];
@@ -486,31 +510,37 @@ export function MymyInstagram(p: SkinProps) {
                   </button>
                 ))}
               </div>
-              {posts.map(post)}
-              {!posts.length && <Blank />}
+              {allFeedPosts.map(post)}
+              {!allFeedPosts.length && <Blank />}
             </>
           )}
           {!selected && tab === "个人主页" && (
             <>
               <div className="pf">
-                <Avatar name={p.owner || "机主"} src={linaProfile ? "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg" : undefined} />
+                <Avatar name={profile.name} src={profile.avatar || undefined} />
                 <div className="ps">
                   <div>
-                    <b>{posts.length}</b>
+                    <b>{profile.count}</b>
                     <small>帖子</small>
                   </div>
                   <div>
-                    <b>{linaProfile ? "524" : "—"}</b>
+                    <b>{profile.followers}</b>
                     <small>粉丝</small>
                   </div>
                   <div>
-                    <b>{linaProfile ? "446" : "—"}</b>
+                    <b>{profile.following}</b>
                     <small>关注</small>
                   </div>
                 </div>
               </div>
-              <p className="pn">{linaProfile ? "linaaa_" : p.owner}</p>
-              {linaProfile && <p className="pn">serendipity&nbsp; @_imnnin</p>}
+              <p className="pn">{profile.handle}</p>
+              {profile.bio && <p className="pn">{profile.bio}</p>}
+              {igAccount === "private" && <p className="pn">🔒 私密帳號 · 與 linaaa_ 互相關注</p>}
+              <div className="ig-account-switch">
+                <button onClick={() => setIgAccount("lina")}>linaaa_</button>
+                <button onClick={() => setIgAccount("public")}>_imnnin</button>
+                <button onClick={() => setIgAccount("private")}>zhvho24</button>
+              </div>
               <div className="ptab">
                 <div className="on">
                   <Grid />
@@ -596,7 +626,7 @@ export function MymyInstagram(p: SkinProps) {
               ].map((c, n) => (
                 <p key={n}>
                   <Avatar name={c.split(":")[0]} />
-                  {c}
+                  {c.includes("\\n") ? <>{c.split("\\n")[0]}<small className="mymy-comment-translation">{c.split("\\n").slice(1).join("\\n")}</small></> : <>{c}<small className="mymy-comment-translation">（中文翻譯：{c === "ㅋㅋㅋ 귀여워" ? "哈哈哈，好可愛" : c === "이 사진 진짜 좋아" ? "真的很喜歡這張照片" : "留言中文翻譯）"}</small></>}
                 </p>
               ))}
             </div>
