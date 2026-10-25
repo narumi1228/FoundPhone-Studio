@@ -129,7 +129,7 @@ export function MymyKakao(p: SkinProps) {
                   {!m.outgoing && run.first && (
                     <>
                       <div className="kzmav">
-                        <Avatar name={m.sender} src={m.avatar} />
+                        <Avatar name={m.sender} src={m.sender === "차우민" ? "https://i.pinimg.com/1200x/e4/32/a7/e432a74d5aac50eaefde332041f52c81.jpg" : m.avatar} />
                       </div>
                       <div className="kzmn">{m.sender}</div>
                     </>
@@ -334,9 +334,16 @@ export function MymyInstagram(p: SkinProps) {
     [story, setStory] = useState(0),
     [draft, setDraft] = useState(""),
     [pop, setPop] = useState("");
-  const posts = p.items.filter(
-      (i) => i.folder !== "私信" && i.meta.story !== "true",
-    ),
+  const linaProfile = /莉娜|lina/i.test(p.owner || "");
+  const linaPosts: Item[] = [
+    { id: "lina-ig-photo", title: "🐾", body: "🐾", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-20", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/a9/08/c2/a908c230613481912c91327bcbb602a6.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 87, comments: ["오늘도 예쁘다 🤍", "사진 분위기 너무 좋아"] },
+    { id: "lina-ig-pose", title: ":3", body: ":3", richText: "", meta: { handle: "linaaa_" }, time: "2026-10-12", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cf/c4/1a/cfc41a1ca255989a819cdcf33ae6be6c.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 132, comments: ["ㅋㅋㅋ 귀여워", "이 사진 진짜 좋아"] },
+    { id: "lina-ig-cake", title: "❤️🍰", body: "❤️🍰", richText: "", meta: { handle: "linaaa_" }, time: "2026-09-28", sender: "linaaa_", avatar: "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg", kind: "image", media: "https://i.pinimg.com/1200x/cc/83/de/cc83ded3ccb56ec9c82c17e922a39745.jpg", hidden: false, unlock: "", password: "", folder: "", favorite: false, outgoing: false, read: false, likes: 64, comments: ["디저트 최고 🍰", "맛있겠다!"] }
+  ];
+  const posts = [
+      ...(linaProfile ? linaPosts : []),
+      ...p.items.filter((i) => i.folder !== "私信" && i.meta.story !== "true")
+    ],
     stories = p.items.filter((i) => i.meta.story === "true"),
     dms = p.items.filter((i) => i.folder === "私信"),
     active = stories[story - 1];
@@ -486,23 +493,24 @@ export function MymyInstagram(p: SkinProps) {
           {!selected && tab === "个人主页" && (
             <>
               <div className="pf">
-                <Avatar name={p.owner || "机主"} />
+                <Avatar name={p.owner || "机主"} src={linaProfile ? "https://i.pinimg.com/736x/fd/e0/62/fde06271c942e6db6378f560b29b1ca4.jpg" : undefined} />
                 <div className="ps">
                   <div>
                     <b>{posts.length}</b>
                     <small>帖子</small>
                   </div>
                   <div>
-                    <b>—</b>
+                    <b>{linaProfile ? "524" : "—"}</b>
                     <small>粉丝</small>
                   </div>
                   <div>
-                    <b>—</b>
+                    <b>{linaProfile ? "446" : "—"}</b>
                     <small>关注</small>
                   </div>
                 </div>
               </div>
-              <p className="pn">{p.owner}</p>
+              <p className="pn">{linaProfile ? "linaaa_" : p.owner}</p>
+              {linaProfile && <p className="pn">serendipity&nbsp; @_imnnin</p>}
               <div className="ptab">
                 <div className="on">
                   <Grid />
