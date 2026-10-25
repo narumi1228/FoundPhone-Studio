@@ -62,6 +62,16 @@
         },
         "notifications": {
           "type": "boolean"
+        },
+        "lockWallpaper": {
+          "default": "",
+          "maxLength": 2048,
+          "type": "string"
+        },
+        "homeWallpaper": {
+          "default": "",
+          "maxLength": 2048,
+          "type": "string"
         }
       },
       "required": [
