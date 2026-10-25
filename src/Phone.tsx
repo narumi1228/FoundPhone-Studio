@@ -260,22 +260,6 @@ function PhoneRuntime({
     }, 1000);
     return () => clearInterval(interval);
   }, [creator, ready, work.id, work.updatedAt]);
-  const autoCallStarted = useRef(false);
-  useEffect(() => {
-    if (creator || !ready || autoCallStarted.current) return;
-    autoCallStarted.current = true;
-    // Make the promised proactive call happen even when the story data has no call node.
-    const timer = setTimeout(() => {
-      const current = runtimeRef.current;
-      if (current.incomingCall) return;
-      update({
-        ...current,
-        incomingCall: { caller: "차우민", target: "phone", status: "ringing" },
-        notifications: [...current.notifications, "车禹闵 来电"],
-      });
-    }, 12000);
-    return () => clearTimeout(timer);
-  }, [creator, ready, work.id, work.updatedAt]);
   const event = (event: string, target: string) => {
     if (!creator) update(dispatch(work, runtimeRef.current, event, target));
   };
