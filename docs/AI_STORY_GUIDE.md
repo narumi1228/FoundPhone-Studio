@@ -14,3 +14,10 @@
 常用数据：chats 使用 participants 与 senderId 关联联系人；read 事件响应消息阅读；callEnded 可解锁隐藏动态。Instagram 的 meta.story="true" 标记快拍，folder="私信" 标记私信。具体字段以版本化 Schema 和编译器为准。
 
 正式默认模板为完整 App 测试预览，只有测试文字，没有内置剧情。正式构建也提供 ?preview=test。作者创作时可替换 stories/template/story.json，或从纯空白脚本开始。
+
+
+## 專案記憶與存檔隔離
+
+- 每個獨立模擬器必須使用唯一且穩定的 `id`；不要直接複製模板 ID 到另一個專案。存檔鍵由作品 ID 與版本組成，作品或版本不同時不會載入另一份進度。
+- `phone.lockWallpaper` 與 `phone.homeWallpaper` 可分別設定鎖屏及主畫面壁紙。遠端圖片只允許 `i.pinimg.com` 圖片網址，其他故事媒體仍使用內嵌資料。
+- KakaoTalk 聊天資料仍存放在故事 JSON；使用訊息 `meta.quickReplies` 與 `meta.replyFollowup` 可定義點選式回覆及後續問題。`callOn` 會在玩家選擇指定答案時建立來電狀態，拒絕選項則不會觸發來電。
