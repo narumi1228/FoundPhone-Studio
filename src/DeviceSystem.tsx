@@ -38,7 +38,7 @@ import {
   Lock,
 } from "lucide-react";
 import { motion } from "motion/react";
-import type { Work } from "./schema";
+import { safeMedia, type Work } from "./schema";
 export const KeyboardContext = createContext<(open: boolean) => void>(() => {});
 export function NativeComposer({
   creator,
@@ -103,6 +103,7 @@ export function DeviceLock({
   return (
     <motion.div
       className={"lock-screen device-lock " + (pinOpen ? "pin-open" : "")}
+      style={safeMedia(work.phone.lockWallpaper) ? { backgroundImage: `linear-gradient(#0002, #0003), url("${safeMedia(work.phone.lockWallpaper)}")`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ y: -852, opacity: 0 }}
