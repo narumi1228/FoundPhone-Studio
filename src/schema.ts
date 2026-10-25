@@ -199,6 +199,8 @@ export function validateWork(input: unknown): Work {
 }
 export function safeMedia(value: string) {
   const embedded = /^data:(image\/(png|jpeg|webp|gif)|audio\/(mpeg|mp3|wav|ogg|webm|mp4)|video\/(mp4|webm));base64,[a-zA-Z0-9+/=\s]+$/.test(value);
-  const approvedImage = /^https:\/\/(?:i\.pinimg\.com\/[a-zA-Z0-9/_-]+\.(?:png|jpe?g|webp)(?:\?[^\s]*)?|pbs\.twimg\.com\/media\/[a-zA-Z0-9_-]+\.(?:png|jpe?g|webp)(?:\?[^\s]*)?)$/i.test(value);
+  // Allow any HTTPS-hosted image URL. Different image hosts use different paths,
+  // extensions and query strings (for example Twitter/X's format=jpg links).
+  const approvedImage = /^https:\/\/[^\s"'<>]+$/i.test(value);
   return embedded || approvedImage ? value : "";
 }
