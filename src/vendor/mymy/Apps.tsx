@@ -331,6 +331,9 @@ export function MymyInstagram(p: SkinProps) {
     [seen, setSeen] = useSkinState<string[]>(p, "mymySeen", []);
   const [sheet, setSheet] = useState<Item | null>(null),
     [selected, setSelected] = useState<Item | null>(null),
+    [selectedDm, setSelectedDm] = useState(false),
+    [dmDraft, setDmDraft] = useState(""),
+    [dmSent, setDmSent] = useSkinState<string[]>(p, "mymyIgDmSent", []),
     [story, setStory] = useState(0),
     [draft, setDraft] = useState(""),
     [pop, setPop] = useState("");
@@ -557,19 +560,54 @@ export function MymyInstagram(p: SkinProps) {
               </div>
             </>
           )}
-          {!selected && tab === "私信" && (
-            <>
-              {dms.map((i) => (
-                <button className="kzkr" key={i.id} onClick={() => openPost(i)}>
-                  <Avatar name={i.sender} src={i.avatar} />
+          {!selected && tab === "私信" && !selectedDm && (
+            <section aria-label="Instagram 私訊收件匣">
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 16px 8px"}}>
+                <b style={{fontSize:18}}>linaaa_</b>
+                <button aria-label="新增訊息" onClick={() => setSelectedDm(true)}><Plus size={22}/></button>
+              </div>
+              <div style={{padding:"4px 16px 12px",color:"#777",fontSize:13}}>訊息</div>
+              {dms.length > 0 ? (
+                <button className="kzkr" onClick={() => setSelectedDm(true)} style={{width:"100%",textAlign:"left"}}>
+                  <Avatar name="zhvho24" src="https://i.pinimg.com/736x/b2/a5/b0/b2a5b0e35439b3e4b54b0858d064936f.jpg" />
                   <span className="kzkn">
-                    <b>{i.title}</b>
-                    <small>{i.body}</small>
+                    <b>zhvho24</b>
+                    <small>{dmSent.length ? dmSent[dmSent.length - 1].split("\\t").slice(1).join("\\t") : dms[dms.length - 1].body.split("\\n")[0]}</small>
                   </span>
+                  <span style={{color:"#888",fontSize:12}}>›</span>
                 </button>
-              ))}
-              {!dms.length && <Blank />}
-            </>
+              ) : <Blank />}
+            </section>
+          )}
+          {!selected && tab === "私信" && selectedDm && (
+            <section aria-label="與 zhvho24 的私訊" style={{display:"flex",flexDirection:"column",height:"100%",minHeight:420}}>
+              <header style={{display:"flex",alignItems:"center",gap:12,padding:"10px 14px",borderBottom:"1px solid #eee"}}>
+                <button aria-label="返回私訊列表" onClick={() => setSelectedDm(false)}><ArrowLeft size={22}/></button>
+                <Avatar name="zhvho24" src="https://i.pinimg.com/736x/b2/a5/b0/b2a5b0e35439b3e4b54b0858d064936f.jpg" />
+                <div style={{display:"flex",flexDirection:"column",flex:1}}>
+                  <b>zhvho24</b><small style={{color:"#888"}}>Instagram</small>
+                </div>
+                <button aria-label="對話資訊"><MoreHorizontal size={22}/></button>
+              </header>
+              <div style={{display:"flex",flexDirection:"column",gap:10,padding:"18px 14px",flex:1,overflowY:"auto"}}>
+                <div style={{textAlign:"center",fontSize:12,color:"#888",padding:"8px 0 18px"}}>zhvho24 · Instagram</div>
+                {dms.map((m) => (
+                  <div key={m.id} style={{display:"flex",alignItems:"flex-end",gap:7,maxWidth:"88%"}}>
+                    <Avatar name="zhvho24" src="https://i.pinimg.com/736x/b2/a5/b0/b2a5b0e35439b3e4b54b0858d064936f.jpg" />
+                    <div style={{background:"#efefef",borderRadius:18,padding:"10px 13px",whiteSpace:"pre-line",fontSize:14,lineHeight:1.45}}>{m.body}</div>
+                  </div>
+                ))}
+                {dmSent.map((raw, index) => {
+                  const parts = raw.split("\\t");
+                  return <div key={index} style={{alignSelf:"flex-end",maxWidth:"82%",background:"#3797f0",color:"white",borderRadius:18,padding:"10px 13px",whiteSpace:"pre-wrap",fontSize:14,lineHeight:1.45}}>{parts.slice(1).join("\\t")}</div>;
+                })}
+              </div>
+              <form onSubmit={(e) => { e.preventDefault(); if (!dmDraft.trim()) return; setDmSent([...dmSent, Date.now() + "\\t" + dmDraft.trim()]); setDmDraft(""); }} style={{display:"flex",alignItems:"center",gap:8,border:"1px solid #ddd",borderRadius:24,padding:"7px 10px",margin:"8px 12px 14px"}}>
+                <button type="button" aria-label="表情符號"><Smile size={21}/></button>
+                <input aria-label="輸入Instagram私訊" placeholder="傳送訊息⋯" value={dmDraft} onChange={(e) => setDmDraft(e.target.value)} maxLength={2000} style={{flex:1,minWidth:0,border:0,outline:"none",background:"transparent"}} />
+                <button type="submit" disabled={!dmDraft.trim()} style={{color:"#3797f0",fontWeight:700,opacity:dmDraft.trim()?1:.45}}>傳送</button>
+              </form>
+            </section>
           )}
           {!selected && tab === "搜索" && (
             <>
